@@ -7,7 +7,11 @@ const db = require('./data/db.js');
 // implement your API here
 const express = require('express');
 
+var cors = require('cors')
+
 const server = express();
+
+server.use(cors());
 
 server.get('/', (req, res) => {
 	db.find()
@@ -15,7 +19,10 @@ server.get('/', (req, res) => {
 			res.status(200).json(posts);
 		})
 		.catch(err => {
-			res.json({error: 'The posts information could not be retrieved.', err: err});
+			res.json({
+				error: 'The posts information could not be retrieved.',
+				err: err
+			});
 		});
 });
 
@@ -24,7 +31,6 @@ server.get('/api/posts/:postid', (req, res) => {
 
 	db.findById(id)
 		.then(post => {
-            console.log(post)
 			if (post.length != 0) {
 				res.status(200).json(post);
 			} else {
@@ -33,7 +39,14 @@ server.get('/api/posts/:postid', (req, res) => {
 				});
 			}
 		})
-		.catch(err => res.status(500).json({ error: "The post information could not be retrieved.", err: err }));
+		.catch(err =>
+			res
+				.status(500)
+				.json({
+					error: 'The post information could not be retrieved.',
+					err: err
+				})
+		);
 });
 
 server.listen(5000, () => console.log('server running'));
