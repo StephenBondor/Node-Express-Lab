@@ -21,8 +21,9 @@ const postsReducer = (state = initialState, action) => {
 		case FETCH_POSTS_SUCCESS:
 			return {
 				...state,
-				error: null,
-				episodes: action.payload
+                error: null,
+                fetchingPosts: false,
+				posts: action.payload
 			};
 		case FETCH_POSTS_FAILURE:
 			return {

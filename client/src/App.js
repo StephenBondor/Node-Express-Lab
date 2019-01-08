@@ -11,15 +11,15 @@ class App extends Component {
 		};
 	}
 
-	//Fetch the State from libsyn
+	//Fetch the State from server
 	componentDidMount() {
 		this.props.getPosts();
 	}
 
-	//Only allow content to render once podast is fully fetched
+	//Only allow content to render once posts are fully fetched
 	componentDidUpdate(prevProps) {
-		if (this.props.fetchingPodcast !== prevProps.fetchingPodcast) {
-			if (!this.props.fetchingPodcast) {
+		if (this.props.fetchingPosts !== prevProps.fetchingPosts) {
+			if (!this.props.fetchingPosts) {
 				this.setState({
 					OKToRender: true
 				});
@@ -28,11 +28,23 @@ class App extends Component {
 	}
 
 	render() {
-		return <div className='App'>Hello</div>;
+		if (!this.state.OKToRender) {
+			return <div> loading... </div>;
+		}
+		return (
+			<>
+				<div className='App'>Hello check it</div>
+        {this.props.posts.map(post => (
+					<div key={post.id} className='App'>
+            {post.title} -- {post.contents}
+          </div>
+				))}
+			</>
+		);
 	}
 }
 
 export default connect(
-	({fetchingPosts}) => ({fetchingPosts}),
+	({fetchingPosts, posts}) => ({fetchingPosts, posts}),
 	{getPosts}
 )(App);

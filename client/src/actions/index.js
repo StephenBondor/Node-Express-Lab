@@ -9,12 +9,12 @@ export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 
 
 
-const URL = 'https://localhost:5000';
+const URL = 'http://localhost:5000';
 
 export const getPosts = () => dispatch => {
 	dispatch({type: FETCH_POSTS_START});
 	axios
-		.get(`${URL}`)
+		.get(`${URL}/api/posts`)
 		.then(response => {
             console.log('Fetch Posts Success', response);
 			dispatch({type: FETCH_POSTS_SUCCESS, payload: response.data});
